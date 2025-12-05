@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+# SPDX-FileCopyrightText: 2024 Jonathan
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source code
+*.res text eol=lf
+*.resi text eol=lf
+*.ts text eol=lf
+*.js text eol=lf
+*.rs text eol=lf
+*.ebnf text eol=lf
+
+# Documentation
+*.adoc text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+
+# Configuration
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.nix text eol=lf
+justfile text eol=lf
+Containerfile text eol=lf
+
+# Scripts
+*.sh text eol=lf
+
+# Binary files
+*.wasm binary
+*.png binary
+*.jpg binary
+*.gif binary
+
+# Lock files (exact)
+flake.lock linguist-generated=true
+package-lock.json linguist-generated=true
+
+# Vendored code
+src/node_modules/** linguist-vendored

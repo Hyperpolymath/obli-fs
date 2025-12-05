@@ -1,0 +1,120 @@
+# SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+# SPDX-FileCopyrightText: 2024 Jonathan
+
+# ObliFS GitLab CI/CD Pipeline
+# Uses Podman for container operations
+
+stages:
+  - check
+  - build
+  - test
+  - docs
+
+variables:
+  # Use Podman instead of Docker
+  DOCKER_HOST: ""
+  CONTAINER_RUNTIME: podman
+
+# Cache Nix store and npm dependencies
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm-global/
+    - src/node_modules/
+    - /nix/store/  # Note: May need adjustment based on runner config
+
+# Base image with Nix
+image: nixos/nix:latest
+
+before_script:
+  - nix --version
+  - nix develop --command echo "Nix shell ready"
+
+# === Check Stage ===
+
+lint:
+  stage: check
+  script:
+    - nix develop --command just lint
+  allow_failure: false
+
+format:
+  stage: check
+  script:
+    - nix develop --command just fmt-check
+  allow_failure: false
+
+spdx:
+  stage: check
+  script:
+    - nix develop --command just spdx-check
+  allow_failure: true  # Informational for now
+
+# === Build Stage ===
+
+build:
+  stage: build
+  script:
+    - nix develop --command just deps
+    - nix develop --command just build
+  artifacts:
+    paths:
+      - dist/
+      - src/wasm/pkg/
+    expire_in: 1 week
+
+# === Test Stage ===
+
+test-unit:
+  stage: test
+  needs: [build]
+  script:
+    - nix develop --command just test-unit
+  coverage: '/^Coverage:\s*(\d+\.?\d*)%/'
+
+test-integration:
+  stage: test
+  needs: [build]
+  script:
+    - nix develop --command just test-integration
+  allow_failure: true  # Integration tests may need infrastructure
+
+# === Documentation Stage ===
+
+docs:
+  stage: docs
+  needs: [build]
+  script:
+    - nix develop --command just build-docs
+  artifacts:
+    paths:
+      - dist/docs/
+    expire_in: 1 week
+  only:
+    - main
+    - tags
+
+pages:
+  stage: docs
+  needs: [docs]
+  script:
+    - mv dist/docs public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+
+# === Container Build (Manual) ===
+
+container:
+  stage: build
+  image: quay.io/podman/stable:latest
+  script:
+    - podman build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
+    - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - podman push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  when: manual
+  only:
+    - main
+    - tags

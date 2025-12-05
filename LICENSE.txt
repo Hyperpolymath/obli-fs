@@ -1,0 +1,57 @@
+SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+
+================================================================================
+MIT License
+================================================================================
+
+Copyright (c) 2024 Jonathan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+Palimpsest License v0.8 (Ethical AI Addendum)
+================================================================================
+
+In addition to the MIT License terms above, the following terms apply:
+
+1. PERMITTED USES
+   - Commercial use with attribution
+   - Modification and derivative works
+   - Distribution in source and binary forms
+   - Training of open-source AI models with attribution
+
+2. PROHIBITED USES
+   - Training of proprietary/closed-source AI models without explicit permission
+   - Removing or obscuring attribution in AI-generated outputs
+   - Using this work to train models that strip attribution from outputs
+
+3. ATTRIBUTION REQUIREMENTS
+   When this work or derivatives are used to train AI systems:
+   - The training dataset must include attribution to original authors
+   - AI systems trained on this work should preserve attribution metadata
+   - Generated outputs should include provenance information where feasible
+
+4. GOOD FAITH INTERPRETATION
+   These terms should be interpreted in good faith to:
+   - Protect contributor recognition
+   - Enable open-source AI development
+   - Prevent exploitation without attribution
+
+This addendum is severable. If any provision is found unenforceable, the
+remaining provisions and the MIT License remain in full effect.

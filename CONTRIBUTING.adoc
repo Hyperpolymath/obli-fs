@@ -1,0 +1,173 @@
+// SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+// SPDX-FileCopyrightText: 2024 Jonathan
+
+= Contributing to ObliFS
+:toc:
+:toclevels: 2
+
+Thank you for your interest in contributing to ObliFS!
+
+== Code of Conduct
+
+This project adheres to a link:CODE_OF_CONDUCT.adoc[Code of Conduct]. By participating, you are expected to uphold this code.
+
+== Tri-Perimeter Contribution Framework (TPCF)
+
+Contributions are organized into three trust perimeters:
+
+=== Perimeter 1: Core (Maintainers Only)
+
+* Build system configuration
+* CI/CD pipeline changes
+* Security-critical code
+* Core runtime components
+
+=== Perimeter 2: Expert (Trusted Contributors)
+
+* Protocol extensions
+* Entity type implementations
+* Storage adapters
+* Validator logic
+
+=== Perimeter 3: Community (Open Participation)
+
+* Documentation improvements
+* Examples and tutorials
+* Test cases
+* Issue reports and discussions
+* Translation/i18n
+
+== Development Setup
+
+=== Prerequisites
+
+* https://nixos.org/download.html[Nix] with flakes enabled
+* Git with signed commits configured
+
+=== Getting Started
+
+[source,bash]
+----
+# Clone the repository
+git clone https://github.com/Hyperpolymath/obli-fs.git
+cd obli-fs
+
+# Enter development shell
+nix develop
+
+# Verify setup
+just check
+----
+
+== Contribution Process
+
+=== For Documentation and Tests (Perimeter 3)
+
+. Fork the repository
+. Create a feature branch: `git checkout -b docs/improve-readme`
+. Make your changes
+. Run checks: `just check`
+. Commit with signed commits: `git commit -S -m "docs: improve README examples"`
+. Open a merge request
+
+=== For Code Changes (Perimeter 2+)
+
+. Discuss the change in an issue first
+. Get approval from a maintainer
+. Follow the process above
+. Ensure all CI checks pass
+. Request review from appropriate maintainers
+
+== Commit Guidelines
+
+We follow https://www.conventionalcommits.org/[Conventional Commits]:
+
+[source]
+----
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+----
+
+Types:
+
+* `feat`: New feature
+* `fix`: Bug fix
+* `docs`: Documentation only
+* `style`: Formatting, no code change
+* `refactor`: Code change that neither fixes a bug nor adds a feature
+* `perf`: Performance improvement
+* `test`: Adding missing tests
+* `chore`: Build process or auxiliary tool changes
+
+=== Signed Commits Required
+
+All commits must be signed. Configure GPG signing:
+
+[source,bash]
+----
+git config --global commit.gpgsign true
+git config --global user.signingkey YOUR_KEY_ID
+----
+
+== Code Standards
+
+=== Language Requirements
+
+* *ReScript*: Type annotations required, no `any` types
+* *Deno/TypeScript*: Strict mode, no implicit any
+* *Rust* (if applicable): Clippy clean, no unsafe without justification
+
+=== SPDX Headers
+
+All source files must include SPDX license headers:
+
+[source]
+----
+// SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+// SPDX-FileCopyrightText: 2024 <your name>
+----
+
+=== Documentation
+
+* All public APIs must be documented
+* Examples should be runnable
+* Complex logic should have explanatory comments
+
+== Testing
+
+[source,bash]
+----
+# Run all tests
+just test
+
+# Run specific test suite
+just test-unit
+just test-integration
+
+# Check formatting
+just fmt-check
+
+# Run linter
+just lint
+----
+
+== Review Process
+
+. All changes require at least one approval
+. CI must pass
+. Commits must be signed
+. Changes must not decrease test coverage
+. Documentation must be updated if behaviour changes
+
+== Getting Help
+
+* Open an issue for questions
+* Check existing documentation
+* Review closed issues for similar problems
+
+== License
+
+By contributing, you agree that your contributions will be licensed under the project's dual MIT + Palimpsest license.

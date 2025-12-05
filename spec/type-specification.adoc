@@ -1,29 +1,33 @@
-# ObliFS Type Hierarchy Specification
+= ObliFS Type Hierarchy Specification
+:toc:
+:toclevels: 3
+:sectnums:
 
-**Version 0.1 (Draft)**
+*Version 0.1 (Draft)*
 
----
+'''
 
-## 1. Overview
+== Overview
 
 This document specifies the type hierarchy for ObliFS storage entities. Each type defines:
 
-- **State**: What data the entity can hold
-- **Capabilities**: What messages it can receive and emit
-- **Constraints**: What operations are prohibited
-- **Invariants**: Properties that must always hold
+* *State*: What data the entity can hold
+* *Capabilities*: What messages it can receive and emit
+* *Constraints*: What operations are prohibited
+* *Invariants*: Properties that must always hold
 
 Types are derived from the Oblíbený language core through systematic restriction. Each type is Turing-incomplete, guaranteeing bounded behaviour.
 
----
+'''
 
-## 2. Base Definitions
+== Base Definitions
 
-### 2.1 Message
+=== Message
 
 A message is a typed, immutable datum exchanged between entities.
 
-```
+[source]
+----
 Message = {
   id        : MessageId        -- Unique identifier
   from      : EntityRef        -- Sender reference
@@ -33,24 +37,26 @@ Message = {
   timestamp : Timestamp        -- When sent
   consent   : ConsentProof     -- Proof of authorised channel
 }
-```
+----
 
-### 2.2 EntityRef
+=== EntityRef
 
 A reference to an entity, content-addressable.
 
-```
+[source]
+----
 EntityRef = {
   id   : ContentHash    -- Hash of entity manifest
   type : EntityType     -- Type discriminator
 }
-```
+----
 
-### 2.3 Capability
+=== Capability
 
 A capability authorises a specific interaction.
 
-```
+[source]
+----
 Capability = {
   holder    : EntityRef       -- Who holds this capability
   target    : EntityRef       -- What it authorises access to
@@ -58,32 +64,34 @@ Capability = {
   expiry    : Option<Time>    -- When capability expires (if ever)
   delegable : Bool            -- Can holder delegate to others?
 }
-```
+----
 
-### 2.4 ConsentProof
+=== ConsentProof
 
 Proof that both parties consented to a channel.
 
-```
+[source]
+----
 ConsentProof = {
   initiator_cap : Capability   -- Initiator's capability
   responder_cap : Capability   -- Responder's capability
   channel_id    : ChannelId    -- Resulting channel
   timestamp     : Timestamp    -- When consent was established
 }
-```
+----
 
----
+'''
 
-## 3. Entity Types
+== Entity Types
 
-### 3.1 Manifest
+=== Manifest
 
-**Purpose**: Immutable specification of what something is.
+*Purpose*: Immutable specification of what something is.
 
-**Analogues**: OCI image config, package manifest, schema definition.
+*Analogues*: OCI image config, package manifest, schema definition.
 
-```
+[source]
+----
 Manifest = {
   -- State
   content : ImmutableData     -- The specification itself
@@ -97,30 +105,33 @@ Manifest = {
   -- Constraints
   cannot : [Execute, Mutate, Send, CreateChannel]
 }
-```
+----
 
-**Message Types Handled**:
+*Message Types Handled*:
 
-```
+[source]
+----
 Validate : {
   against : Schema
 } -> Result<Valid, ValidationError>
-```
+----
 
-**Invariants**:
-- `hash == hash(content)` (content-addressable)
-- Content never changes after creation
-- No side effects from any operation
+*Invariants*:
 
----
+* `hash == hash(content)` (content-addressable)
+* Content never changes after creation
+* No side effects from any operation
 
-### 3.2 Actor
+'''
 
-**Purpose**: Active entity that can receive messages and transform state.
+=== Actor
 
-**Analogues**: Erlang process, Orleans grain, database record with triggers.
+*Purpose*: Active entity that can receive messages and transform state.
 
-```
+*Analogues*: Erlang process, Orleans grain, database record with triggers.
+
+[source]
+----
 Actor = {
   -- State
   manifest  : EntityRef<Manifest>   -- What kind of actor
@@ -135,11 +146,12 @@ Actor = {
   -- Constraints
   cannot : [ArbitraryIO, SpawnProcess, EscapeType, DirectMutateOther]
 }
-```
+----
 
-**Message Types Handled**:
+*Message Types Handled*:
 
-```
+[source]
+----
 Query : {
   selector : Selector
 } -> Result<Data, QueryError>
@@ -156,22 +168,24 @@ Replicate : {
 Notify : {
   event : Event
 } -> Unit
-```
+----
 
-**Invariants**:
-- State always conforms to manifest schema
-- All state transitions are logged
-- Mailbox is bounded (backpressure on senders)
+*Invariants*:
 
----
+* State always conforms to manifest schema
+* All state transitions are logged
+* Mailbox is bounded (backpressure on senders)
 
-### 3.3 Channel
+'''
 
-**Purpose**: Stateless conduit for messages between entities.
+=== Channel
 
-**Analogues**: Unix pipe (with types), network socket (with capabilities).
+*Purpose*: Stateless conduit for messages between entities.
 
-```
+*Analogues*: Unix pipe (with types), network socket (with capabilities).
+
+[source]
+----
 Channel = {
   -- State
   endpoints : (EntityRef, EntityRef)   -- Who is connected
@@ -186,31 +200,34 @@ Channel = {
   -- Constraints
   cannot : [Store, TransformContent, CreateSubchannel, RevokeConsent]
 }
-```
+----
 
-**Message Types Handled**:
+*Message Types Handled*:
 
-```
+[source]
+----
 -- Channel is transparent; it forwards messages unchanged
 -- But validates against Protocol before forwarding
 
 Forward : Message -> Result<Delivered, ProtocolViolation | EndpointUnreachable>
-```
+----
 
-**Invariants**:
-- Cannot exist without valid ConsentProof
-- Cannot forward messages that violate Protocol
-- Cannot be created covertly (consent is public)
+*Invariants*:
 
----
+* Cannot exist without valid ConsentProof
+* Cannot forward messages that violate Protocol
+* Cannot be created covertly (consent is public)
 
-### 3.4 Router
+'''
 
-**Purpose**: Routes messages through the entity network.
+=== Router
 
-**Analogues**: Network router, message broker, service mesh.
+*Purpose*: Routes messages through the entity network.
 
-```
+*Analogues*: Network router, message broker, service mesh.
+
+[source]
+----
 Router = {
   -- State
   topology : RoutingTable              -- Where to send what
@@ -223,11 +240,12 @@ Router = {
   -- Constraints
   cannot : [ReadMessageContent, CreateChannel, ModifyMessage, InjectMessage]
 }
-```
+----
 
-**Message Types Handled**:
+*Message Types Handled*:
 
-```
+[source]
+----
 RouteQuery : {
   destination : EntityRef
 } -> Result<Route, NoRoute>
@@ -235,22 +253,24 @@ RouteQuery : {
 TopologyUpdate : {
   change : TopologyChange
 } -> Result<Ack, InvalidUpdate>
-```
+----
 
-**Invariants**:
-- Cannot read message payloads (only headers for routing)
-- Cannot create channels (only route through existing ones)
-- Topology changes are logged
+*Invariants*:
 
----
+* Cannot read message payloads (only headers for routing)
+* Cannot create channels (only route through existing ones)
+* Topology changes are logged
 
-### 3.5 Workflow
+'''
 
-**Purpose**: Composes operations into sequences with error handling.
+=== Workflow
 
-**Analogues**: Makefile, Ansible playbook, saga pattern.
+*Purpose*: Composes operations into sequences with error handling.
 
-```
+*Analogues*: Makefile, Ansible playbook, saga pattern.
+
+[source]
+----
 Workflow = {
   -- State
   definition : WorkflowDef             -- The workflow specification
@@ -264,11 +284,12 @@ Workflow = {
   -- Constraints
   cannot : [BypassConsent, ViolateTypeBounds, DirectMutate, EscapeWorkflow]
 }
-```
+----
 
-**Message Types Handled**:
+*Message Types Handled*:
 
-```
+[source]
+----
 Invoke : {
   args : Args
 } -> Result<ExecutionId, InvokeError>
@@ -280,11 +301,12 @@ Cancel : {
 Status : {
   execution_id : ExecutionId
 } -> Result<ExecutionStatus, NotFound>
-```
+----
 
-**Workflow Definition Language**:
+*Workflow Definition Language*:
 
-```
+[source]
+----
 WorkflowDef = {
   name   : String
   steps  : [Step]
@@ -303,22 +325,24 @@ ErrorHandler =
   | Retry { max_attempts : Nat, backoff : Duration }
   | Rollback
   | Compensate { compensation : [Step] }
-```
+----
 
-**Invariants**:
-- Cannot bypass consent for any operation
-- All operations go through typed channels
-- Execution state is always recoverable
+*Invariants*:
 
----
+* Cannot bypass consent for any operation
+* All operations go through typed channels
+* Execution state is always recoverable
 
-### 3.6 Archive
+'''
 
-**Purpose**: Preserves historical state with provenance.
+=== Archive
 
-**Analogues**: Git reflog, audit log, append-only ledger.
+*Purpose*: Preserves historical state with provenance.
 
-```
+*Analogues*: Git reflog, audit log, append-only ledger.
+
+[source]
+----
 Archive = {
   -- State
   history : AppendOnlyLog<HistoryEntry>
@@ -332,11 +356,12 @@ Archive = {
   -- Constraints
   cannot : [Delete, Modify, Reorder, Forge]
 }
-```
+----
 
-**Message Types Handled**:
+*Message Types Handled*:
 
-```
+[source]
+----
 Store : {
   data      : Data
   metadata  : Metadata
@@ -351,11 +376,12 @@ Prove : {
   ref       : HistoryRef
   assertion : Assertion
 } -> Result<Proof, CannotProve>
-```
+----
 
-**History Entry**:
+*History Entry*:
 
-```
+[source]
+----
 HistoryEntry = {
   ref       : HistoryRef           -- Content-addressable reference
   data      : Data                 -- The preserved data
@@ -365,20 +391,22 @@ HistoryEntry = {
   timestamp : Timestamp
   hash      : Hash                 -- hash(data, metadata, prev)
 }
-```
+----
 
-**Invariants**:
-- Append-only (no modification or deletion)
-- Chain integrity (each entry references previous)
-- Provenance always recorded
+*Invariants*:
 
----
+* Append-only (no modification or deletion)
+* Chain integrity (each entry references previous)
+* Provenance always recorded
 
-## 4. Consent Model
+'''
 
-### 4.1 Channel Creation Protocol
+== Consent Model
 
-```
+=== Channel Creation Protocol
+
+[source]
+----
 -- Initiator requests channel
 Initiator -> System : RequestChannel {
   target    : EntityRef
@@ -406,30 +434,33 @@ System -> Initiator : ChannelCreated {
   channel_id : ChannelId
   consent    : ConsentProof
 }
-```
+----
 
-### 4.2 Capability Delegation
+=== Capability Delegation
 
-```
+[source]
+----
 Delegate : {
   capability : Capability
   to         : EntityRef
   restricted : Option<Restriction>   -- Further constrain the capability
 } -> Result<DelegatedCapability, DelegationError>
-```
+----
 
-**Constraints**:
-- Cannot delegate non-delegable capabilities
-- Cannot expand capabilities through delegation
-- Delegation chain is recorded
+*Constraints*:
 
----
+* Cannot delegate non-delegable capabilities
+* Cannot expand capabilities through delegation
+* Delegation chain is recorded
 
-## 5. Operation Semantics
+'''
 
-### 5.1 Operation Structure
+== Operation Semantics
 
-```
+=== Operation Structure
+
+[source]
+----
 Operation = {
   id        : OperationId
   type      : OperationType
@@ -439,51 +470,68 @@ Operation = {
   consent   : ConsentProof
   timestamp : Timestamp
 }
-```
+----
 
-### 5.2 Operation Lifecycle
+=== Operation Lifecycle
 
-```
+[source]
+----
 Pending -> Validated -> Executing -> Completed
                     \-> Failed
                     \-> Rolled Back
-```
+----
 
-### 5.3 Reversibility
+=== Reversibility
 
 Operations that modify state must define their inverse:
 
-```
+[source]
+----
 OperationType = {
   name    : String
   forward : Args -> State -> Result<State, Error>
   inverse : Args -> State -> Result<State, Error>
   -- Invariant: inverse(args, forward(args, s)) == s
 }
-```
+----
 
----
+'''
 
-## 6. Type Derivation from Oblíbený
+== Type Derivation from Oblíbený
 
 Each entity type is a restriction of the full Oblíbený language:
 
-| Entity Type | Oblíbený Restrictions |
-|-------------|----------------------|
-| Manifest | No `defun` (functions), no mutation, no I/O |
-| Actor | No direct memory access, no process spawning, bounded recursion |
-| Channel | No state, no computation beyond forwarding |
-| Router | No message content access, no channel creation |
-| Workflow | No direct mutation, must go through messages |
-| Archive | No deletion, no modification, append-only |
+[cols="1,3",options="header"]
+|===
+|Entity Type |Oblíbený Restrictions
+
+|Manifest
+|No `defun` (functions), no mutation, no I/O
+
+|Actor
+|No direct memory access, no process spawning, bounded recursion
+
+|Channel
+|No state, no computation beyond forwarding
+
+|Router
+|No message content access, no channel creation
+
+|Workflow
+|No direct mutation, must go through messages
+
+|Archive
+|No deletion, no modification, append-only
+|===
 
 These restrictions are enforced at compile time through Oblíbený's type system, not through runtime checks.
 
----
+'''
 
-## 7. Example: Replication Protocol
+== Example: Replication Protocol
 
-```
+[source]
+----
 -- Actor A wants to replicate to Actor B
 
 -- 1. A requests channel to B
@@ -519,28 +567,28 @@ Archive : Store {
   data: ReplicationRecord { from: A, to: B, timestamp: now },
   operation: OperationRef(this)
 }
-```
+----
 
----
+'''
 
-## 8. Open Questions
+== Open Questions
 
-1. **Garbage collection**: How are unreferenced entities collected?
-   *Likely*: Explicit Archive + eventual pruning with proof of non-reference
+. *Garbage collection*: How are unreferenced entities collected? +
+_Likely_: Explicit Archive + eventual pruning with proof of non-reference
 
-2. **Distributed consensus**: When entities span nodes, how is consistency maintained?
-   *Likely*: Eventual consistency with conflict resolution per type
+. *Distributed consensus*: When entities span nodes, how is consistency maintained? +
+_Likely_: Eventual consistency with conflict resolution per type
 
-3. **Performance**: Message-passing overhead vs. direct access
-   *Likely*: Batching, locality optimisation, zero-copy where possible
+. *Performance*: Message-passing overhead vs. direct access +
+_Likely_: Batching, locality optimisation, zero-copy where possible
 
-4. **Migration**: How do entities move between storage backends?
-   *Likely*: Archive + recreate, with provenance chain
+. *Migration*: How do entities move between storage backends? +
+_Likely_: Archive + recreate, with provenance chain
 
-5. **Versioning**: How do type definitions evolve?
-   *Likely*: Explicit migration workflows, backward-compatible protocols
+. *Versioning*: How do type definitions evolve? +
+_Likely_: Explicit migration workflows, backward-compatible protocols
 
----
+'''
 
-**Version**: 0.1 Draft
-**Status**: Working specification, subject to revision
+*Version*: 0.1 Draft +
+*Status*: Working specification, subject to revision

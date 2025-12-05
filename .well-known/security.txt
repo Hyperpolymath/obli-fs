@@ -1,0 +1,8 @@
+# Security Policy
+# See: https://securitytxt.org/
+
+Contact: mailto:security@oblibeny.dev
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://github.com/Hyperpolymath/obli-fs/.well-known/security.txt
+Policy: https://github.com/Hyperpolymath/obli-fs/blob/main/SECURITY.md

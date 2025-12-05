@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+// SPDX-FileCopyrightText: 2024 Jonathan
+
+= Changelog
+:toc:
+
+All notable changes to this project will be documented in this file.
+
+The format is based on https://keepachangelog.com/en/1.1.0/[Keep a Changelog], and this project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
+
+== [Unreleased]
+
+=== Added
+
+* Initial project structure following RSR gold standard
+* Oblíbený grammar v0.6 (phase-separated, Turing-complete/incomplete)
+* Type specification for ObliFS entities (Manifest, Actor, Channel, Router, Workflow, Archive)
+* Architecture documentation with visual diagrams
+* Outreach materials (elevator pitches, FAQ, glossary, comparison)
+* Nix flake for reproducible development
+* Justfile for task automation
+* ReScript + Deno + WASM build configuration
+
+=== Changed
+
+* Converted all documentation from Markdown to AsciiDoc
+* Replaced Docker references with Podman
+
+=== Security
+
+* Added SPDX headers to all source files
+* Implemented capability-based access model in specification
+* Added security policy (SECURITY.md)

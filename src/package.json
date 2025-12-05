@@ -1,0 +1,24 @@
+{
+  "name": "@oblifs/core",
+  "version": "0.1.0",
+  "description": "ObliFS - Typed Actor Coordination Over Storage",
+  "type": "module",
+  "scripts": {
+    "build": "rescript build",
+    "clean": "rescript clean",
+    "watch": "rescript build -w",
+    "lint": "rescript format -check src/**/*.res"
+  },
+  "keywords": [
+    "oblifs",
+    "typed-actors",
+    "capability-security",
+    "storage",
+    "coordination"
+  ],
+  "author": "Jonathan",
+  "license": "MIT AND LicenseRef-Palimpsest-0.8",
+  "devDependencies": {
+    "rescript": "^11.0.0"
+  }
+}
