@@ -1,0 +1,134 @@
+# ObliFS Glossary
+
+Mapping between conceptual metaphors and technical implementations.
+
+---
+
+## Core Concepts
+
+| Metaphor | Technical Term | Definition | Analogues |
+|----------|---------------|------------|-----------|
+| **Village** | Actor Network | A collection of typed entities communicating via message-passing | Erlang cluster, Orleans silo, Actor system |
+| **Worker** | Actor | An entity that can receive messages, hold state, and emit responses | Erlang process, Orleans grain |
+| **Job/Role** | Type | The specification of what an entity can do and cannot do | Interface, trait, protocol |
+| **Conversation** | Message Exchange | Typed communication between entities through channels | RPC, message passing |
+| **Road/Bridge** | Channel | A stateless conduit for messages between two entities | Pipe, socket, queue |
+| **Consent** | Capability | Proof of authorisation to interact with an entity | Token, ticket, permission |
+| **Village Square** | Router | The component that directs messages to their destinations | Message broker, service mesh |
+| **Procedure/Custom** | Workflow | A composed sequence of operations with error handling | Saga, workflow, playbook |
+| **Archive/Records** | Archive | Append-only storage of historical state with provenance | Audit log, reflog, ledger |
+| **Blueprint** | Manifest | Immutable specification of what an entity is | Schema, image config, manifest |
+
+---
+
+## Original Copilot Metaphors (Rescued)
+
+These terms appeared in early design discussions. Here's what they actually meant:
+
+| Original Term | Actual Meaning | Technical Implementation |
+|---------------|----------------|-------------------------|
+| **Sigil** | Type manifest | `Manifest` entity — immutable specification of structure and capabilities |
+| **Vessel** | Active instance | `Actor` entity — running entity that processes messages |
+| **Bond** | Connection with consent | `Channel` entity — message conduit requiring mutual capability presentation |
+| **Cloak** | Network/routing layer | `Router` entity — message routing without content inspection |
+| **Ritual** | Orchestrated workflow | `Workflow` entity — composed operations with error handling |
+| **Compost** | Archival/lifecycle end | `Archive` entity — historical preservation with provenance |
+
+---
+
+## Phase Separation Terms
+
+From the Oblíbený language, applicable to ObliFS:
+
+| Term | Meaning | In ObliFS Context |
+|------|---------|-------------------|
+| **Compile-time** | Development phase where full language is available | When defining entity types, writing workflows, testing |
+| **Deploy-time** | Restricted phase for deployed code | Entity types in production — bounded, verifiable behaviour |
+| **Turing-complete** | Can express any computation | The full Oblíbený language used during development |
+| **Turing-incomplete** | Bounded computation, guaranteed to terminate | Deployed entity behaviour — provably safe |
+| **Bounded loop** | Loop with statically-known iteration count | How entities process bounded work without hanging |
+| **Termination proof** | Static guarantee that code will complete | Required for all deployed entity behaviour |
+
+---
+
+## Security/Capability Terms
+
+| Term | Definition | Why It Matters |
+|------|------------|----------------|
+| **Capability** | An unforgeable token that grants specific rights | Entities can only interact if they hold appropriate capabilities |
+| **Consent** | Mutual agreement to establish a channel | Both parties must present capabilities to create a channel |
+| **Consent proof** | Cryptographic evidence that consent was given | Channels cannot exist without verifiable consent |
+| **Delegation** | Passing a capability to another entity | Capabilities can be shared, but not amplified |
+| **Revocation** | Withdrawing a previously-granted capability | Capabilities can expire or be explicitly revoked |
+
+---
+
+## Message Protocol Terms
+
+| Term | Definition |
+|------|------------|
+| **Message** | A typed, immutable datum sent between entities |
+| **Mailbox** | Queue of pending messages for an Actor |
+| **Protocol** | Specification of valid message types for a channel |
+| **Forward** | Channel passing a message to its destination |
+| **Backpressure** | Flow control when mailboxes are full |
+
+---
+
+## Lifecycle Terms
+
+| Term | Definition |
+|------|------------|
+| **Creation** | Instantiating an entity from a Manifest |
+| **Operation** | A typed action with defined forward and inverse |
+| **Replication** | Copying an entity's state to another location |
+| **Migration** | Moving an entity between storage backends |
+| **Archival** | Preserving an entity's final state in the Archive |
+| **Provenance** | The chain of operations that produced current state |
+
+---
+
+## Audience-Specific Translations
+
+### For Erlang/OTP Developers
+- Actor = Process
+- Channel = Link with typed messages
+- Router = Registry + routing logic
+- Workflow = Supervisor strategy + gen_statem
+- Archive = persistent_term + custom logging
+
+### For Kubernetes/Cloud-Native Developers
+- Actor = Pod with defined API
+- Channel = Service mesh connection
+- Manifest = Deployment spec
+- Router = Ingress/Service
+- Workflow = Operator or Argo workflow
+- Capability = RBAC + Network Policy
+
+### For Database Developers
+- Actor = Record with triggers
+- Channel = Foreign key relationship
+- Manifest = Schema
+- Workflow = Stored procedure / transaction
+- Archive = Audit table / CDC log
+
+### For Security Researchers
+- Capability = Unforgeable token (cf. seL4, Capsicum)
+- Consent = Mutual capability exchange
+- Channel = Typed, auditable communication primitive
+- Actor = Isolated execution context with bounded authority
+
+---
+
+## Anti-Glossary: Terms to Avoid
+
+These terms cause confusion or trigger dismissal:
+
+| Avoid | Why | Use Instead |
+|-------|-----|-------------|
+| "Files have agency" | Sounds like anthropomorphisation | "Entities are typed actors" |
+| "Emotional safety" | Meaningless in technical context | "Type-enforced safety" |
+| "Living files" | Too biological | "Active entities" |
+| "File consciousness" | Absurd | "Typed behaviour" |
+| "Swarm intelligence" | Overpromises | "Emergent system behaviour" |
+| "Self-aware storage" | Science fiction | "Typed coordination layer" |
