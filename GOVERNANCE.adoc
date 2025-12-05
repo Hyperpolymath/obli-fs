@@ -1,0 +1,119 @@
+// SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+// SPDX-FileCopyrightText: 2024 Jonathan
+
+= ObliFS Governance
+:toc:
+
+== Overview
+
+ObliFS follows a Benevolent Dictator for Life (BDFL) model with community input through the Tri-Perimeter Contribution Framework.
+
+== Roles
+
+=== BDFL (Benevolent Dictator for Life)
+
+*Current*: Jonathan
+
+Responsibilities:
+
+* Final decision authority on project direction
+* Core architecture decisions
+* Maintainer appointment and removal
+* Code of Conduct enforcement escalations
+
+=== Maintainers
+
+Responsibilities:
+
+* Review and merge contributions
+* Triage issues
+* Enforce code standards
+* Mentor contributors
+
+Current maintainers are listed in link:MAINTAINERS.md[MAINTAINERS.md].
+
+=== Contributors
+
+Anyone who contributes to the project through:
+
+* Code contributions
+* Documentation
+* Issue reports
+* Community support
+
+== Decision Making
+
+=== Routine Decisions
+
+* Made by individual maintainers
+* Can be overridden by BDFL
+
+=== Significant Decisions
+
+Changes affecting:
+
+* Public API
+* Architecture
+* Dependencies
+* Governance
+
+Process:
+
+. Proposal in an issue or discussion
+. Community feedback period (minimum 7 days)
+. Maintainer consensus
+. BDFL approval for architectural changes
+
+=== Disputes
+
+. Attempt resolution between parties
+. Escalate to maintainers
+. BDFL makes final decision
+
+== Contribution Perimeters
+
+=== Perimeter 1: Core
+
+* Build systems, CI/CD, security-critical code
+* Maintainers only
+* Requires BDFL approval for changes
+
+=== Perimeter 2: Expert
+
+* Protocol implementations, adapters, validators
+* Trusted contributors with track record
+* Requires maintainer approval
+
+=== Perimeter 3: Community
+
+* Documentation, tests, examples
+* Open to all contributors
+* Standard review process
+
+== Becoming a Maintainer
+
+Requirements:
+
+* Sustained quality contributions
+* Understanding of project architecture
+* Alignment with project values
+* Nomination by existing maintainer
+* BDFL approval
+
+== Code of Conduct Enforcement
+
+See link:CODE_OF_CONDUCT.adoc[Code of Conduct] for enforcement guidelines.
+
+Escalation path:
+
+. Maintainers
+. BDFL
+
+== Changes to Governance
+
+This document may be changed by:
+
+. Proposal by any contributor
+. 14-day feedback period
+. Maintainer consensus
+. BDFL approval

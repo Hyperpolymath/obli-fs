@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+# SPDX-FileCopyrightText: 2024 Jonathan
+
+# Funding sources for ObliFS
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+
+github: []
+patreon:
+open_collective:
+ko_fi:
+tidelift:
+community_bridge:
+liberapay:
+issuehunt:
+otechie:
+lfx_crowdfunding:
+custom: []
+
+# Note: This project is currently unfunded and developed as open source.
+# Funding mechanisms may be added as the project matures.

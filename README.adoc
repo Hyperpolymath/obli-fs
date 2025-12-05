@@ -1,0 +1,142 @@
+// SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+// SPDX-FileCopyrightText: 2024 Jonathan <jonathan@oblibeny.dev>
+
+= ObliFS: Typed Actor Coordination Over Storage
+:toc:
+:toclevels: 3
+:sectnums:
+:icons: font
+
+== Overview
+
+ObliFS is a *typed actor coordination layer* over storage. It provides capability-based access control, consent-based channels, and emergent system behaviours—all derived from the Oblíbený programming language's phase-separated type system.
+
+[source]
+----
+┌─────────────────────────────────────────┐
+│  Application (uses ObliFS API)          │
+├─────────────────────────────────────────┤
+│  ObliFS (typed actors, message-passing) │
+├─────────────────────────────────────────┤
+│  Adapter Layer                          │
+├─────────────────────────────────────────┤
+│  ext4 / ZFS / S3 / any storage backend  │
+└─────────────────────────────────────────┘
+----
+
+== Key Properties
+
+* *Typed Actors*: Every stored entity has a type defining what it can and cannot do
+* *Turing-Incomplete by Construction*: Safety from bounded behaviour, not runtime checks
+* *Consent-Based Channels*: Both parties must agree before communication
+* *Capability Security*: Access requires presenting unforgeable tokens
+* *Reversible Operations*: All state changes define their inverse
+* *Audit by Construction*: Operations are typed and logged by definition
+
+== Quick Start
+
+=== Prerequisites
+
+* https://nixos.org/download.html[Nix] with flakes enabled
+* https://just.systems/[Just] command runner
+
+=== Development Environment
+
+[source,bash]
+----
+# Enter development shell
+nix develop
+
+# Run all checks
+just check
+
+# Build the project
+just build
+----
+
+== Documentation
+
+* link:spec/technical-summary.adoc[Technical Summary] — One-page architecture overview
+* link:spec/type-specification.adoc[Type Specification] — Formal entity type definitions
+* link:spec/architecture.adoc[Architecture] — Visual diagrams and layer model
+* link:outreach/elevator-pitch.adoc[Elevator Pitches] — Framing for different audiences
+* link:outreach/faq-objections.adoc[FAQ & Objections] — Anticipated pushback with responses
+* link:outreach/glossary.adoc[Glossary] — Metaphor to technical term mapping
+* link:outreach/comparison.adoc[Comparison] — How ObliFS relates to existing systems
+
+== Entity Types
+
+[cols="1,2,2",options="header"]
+|===
+|Type |Purpose |Key Constraint
+
+|*Manifest*
+|Immutable specification
+|Cannot execute or mutate
+
+|*Actor*
+|Active entity with state
+|Bounded loops, no syscalls
+
+|*Channel*
+|Message conduit
+|Stateless, forward only
+
+|*Router*
+|Message routing
+|Cannot read content
+
+|*Workflow*
+|Operation composition
+|Must use channels
+
+|*Archive*
+|Historical preservation
+|Append-only
+|===
+
+== Project Structure
+
+[source]
+----
+obli-fs/
+├── grammar/                 # Oblíbený language grammar
+├── spec/                    # Formal specifications
+├── outreach/                # Communication materials
+├── src/                     # Implementation
+│   ├── core/               # Core types (ReScript)
+│   ├── runtime/            # Coordination runtime (Deno)
+│   └── wasm/               # WASM modules
+├── .well-known/             # Web discovery files
+├── flake.nix               # Nix development environment
+└── justfile                # Task automation
+----
+
+== Technology Stack
+
+* *ReScript* — Type-safe language compiling to efficient JavaScript
+* *Deno* — Secure runtime with TypeScript support
+* *WebAssembly* — Performance-critical modules
+* *Nix* — Reproducible development environments
+* *Podman* — Rootless container runtime
+
+== Contributing
+
+See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] for guidelines.
+
+This project follows the link:CODE_OF_CONDUCT.adoc[Code of Conduct].
+
+== License
+
+Dual-licensed under:
+
+* MIT License — Permissive use with attribution
+* link:LICENSE.txt[Palimpsest License v0.8] — Ethical AI restrictions
+
+See link:LICENSE.txt[LICENSE.txt] for full terms.
+
+== Status
+
+*Pre-alpha* — Specification phase. No implementation yet.
+
+See link:CHANGELOG.adoc[CHANGELOG.adoc] for version history.

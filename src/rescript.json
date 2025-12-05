@@ -1,0 +1,28 @@
+{
+  "name": "@oblifs/core",
+  "sources": [
+    {
+      "dir": "core",
+      "subdirs": true
+    },
+    {
+      "dir": "entities",
+      "subdirs": true
+    },
+    {
+      "dir": "adapters",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "suffix": ".mjs",
+  "bs-dependencies": [],
+  "warnings": {
+    "error": "+101"
+  }
+}

@@ -1,1 +1,51 @@
+# SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+# SPDX-FileCopyrightText: 2024 Jonathan
 
+# === Build Outputs ===
+dist/
+*.mjs
+*.bs.js
+lib/
+
+# === Dependencies ===
+node_modules/
+.npm-global/
+
+# === ReScript ===
+.bsb.lock
+.merlin
+
+# === Deno ===
+deno.lock
+
+# === Rust/WASM ===
+src/wasm/target/
+src/wasm/pkg/
+Cargo.lock
+
+# === Nix ===
+result
+result-*
+.direnv/
+
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Logs ===
+*.log
+npm-debug.log*
+
+# === Temporary ===
+tmp/
+.cache/
+
+# === Containers ===
+*.tar

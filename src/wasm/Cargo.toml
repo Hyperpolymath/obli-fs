@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: MIT AND LicenseRef-Palimpsest-0.8
+# SPDX-FileCopyrightText: 2024 Jonathan
+
+[package]
+name = "oblifs-wasm"
+version = "0.1.0"
+authors = ["Jonathan"]
+edition = "2021"
+license = "MIT"
+description = "ObliFS WASM modules for performance-critical operations"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+# For better error messages in browser console
+console_error_panic_hook = { version = "0.1", optional = true }
+# For content-addressable hashing
+sha2 = "0.10"
+hex = "0.4"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
+
+[profile.release]
+# Optimize for size
+opt-level = "s"
+lto = true

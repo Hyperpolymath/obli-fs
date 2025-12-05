@@ -1,12 +1,15 @@
-# ObliFS Architecture
+= ObliFS Architecture
+:toc:
+:toclevels: 2
 
 Visual and structural overview of the ObliFS system.
 
----
+'''
 
-## Layer Diagram
+== Layer Diagram
 
-```
+[source]
+----
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        APPLICATIONS                                  │
 │   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
@@ -55,13 +58,14 @@ Visual and structural overview of the ObliFS system.
 │                        STORAGE BACKENDS                              │
 │        ext4/ZFS/APFS     S3/GCS/Azure        Ceph/GlusterFS         │
 └─────────────────────────────────────────────────────────────────────┘
-```
+----
 
----
+'''
 
-## Entity Relationships
+== Entity Relationships
 
-```
+[source]
+----
                     ┌─────────────┐
                     │  MANIFEST   │
                     │ (immutable) │
@@ -96,13 +100,14 @@ Visual and structural overview of the ObliFS system.
      │ CAPABILITY  │
      │  (token)    │
      └─────────────┘
-```
+----
 
----
+'''
 
-## Message Flow
+== Message Flow
 
-```
+[source]
+----
 ┌──────────┐                                              ┌──────────┐
 │ ACTOR A  │                                              │ ACTOR B  │
 │          │                                              │          │
@@ -134,13 +139,14 @@ Visual and structural overview of the ObliFS system.
      │                   │ ARCHIVE  │                           │
      │                   │(logged)  │                           │
      │                   └──────────┘                           │
-```
+----
 
----
+'''
 
-## Type Derivation from Oblíbený
+== Type Derivation from Oblíbený
 
-```
+[source]
+----
                     ┌───────────────────────────┐
                     │      OBLÍBENÝ CORE        │
                     │    (Turing-complete)      │
@@ -176,13 +182,14 @@ Visual and structural overview of the ObliFS system.
 │ Via channels    │   │ No delete       │   │ No content      │
 │ Handle errors   │   │ Prove provenance│   │ Route messages  │
 └─────────────────┘   └─────────────────┘   └─────────────────┘
-```
+----
 
----
+'''
 
-## Capability Flow
+== Capability Flow
 
-```
+[source]
+----
 ┌──────────────────────────────────────────────────────────────────┐
 │                        CAPABILITY LIFECYCLE                       │
 └──────────────────────────────────────────────────────────────────┘
@@ -222,13 +229,14 @@ Visual and structural overview of the ObliFS system.
 │  restricted)│                  │ • Future    │
 │             │                  │   uses fail │
 └─────────────┘                  └─────────────┘
-```
+----
 
----
+'''
 
-## Deployment Topology Example
+== Deployment Topology Example
 
-```
+[source]
+----
 ┌─────────────────────────────────────────────────────────────────────┐
 │                           EDGE NODE A                                │
 │  ┌──────────────────────────────────────────────────────────────┐   │
@@ -281,33 +289,34 @@ Visual and structural overview of the ObliFS system.
 │                   │  (S3/GCS)       │                               │
 │                   └─────────────────┘                               │
 └─────────────────────────────────────────────────────────────────────┘
-```
+----
 
----
+'''
 
-## File/Directory Structure
+== File/Directory Structure
 
-```
+[source]
+----
 obli-fs/
 ├── grammar/
 │   └── oblibeny-v0.6.ebnf     # Oblíbený language grammar
 │
 ├── spec/
-│   ├── type-specification.md  # Formal entity type definitions
-│   └── architecture.md        # This file
+│   ├── type-specification.adoc # Formal entity type definitions
+│   └── architecture.adoc       # This file
 │
 ├── outreach/
-│   ├── technical-summary.md   # One-page overview (no metaphors)
-│   ├── elevator-pitch.md      # Pitches for different audiences
-│   ├── faq-objections.md      # Anticipated pushback
-│   ├── glossary.md            # Metaphor → technical term mapping
-│   └── comparison.md          # vs. existing systems
+│   ├── technical-summary.adoc  # One-page overview (no metaphors)
+│   ├── elevator-pitch.adoc     # Pitches for different audiences
+│   ├── faq-objections.adoc     # Anticipated pushback
+│   ├── glossary.adoc           # Metaphor → technical term mapping
+│   └── comparison.adoc         # vs. existing systems
 │
-├── src/                       # Implementation (future)
-│   ├── core/                  # Core types and message passing
-│   ├── entities/              # Entity type implementations
-│   ├── adapters/              # Storage backend adapters
-│   └── runtime/               # Coordination runtime
+├── src/                        # Implementation (future)
+│   ├── core/                   # Core types and message passing
+│   ├── entities/               # Entity type implementations
+│   ├── adapters/               # Storage backend adapters
+│   └── runtime/                # Coordination runtime
 │
-└── examples/                  # Example configurations (future)
-```
+└── examples/                   # Example configurations (future)
+----
